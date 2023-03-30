@@ -1,0 +1,16 @@
+pipeline {
+    agent {
+        label 'linux'
+    }
+    stages {
+        stage('Echo String') {
+            steps {
+                sh """
+                echo 'Hello, world!' \
+                echo $HOME
+            """
+            }
+        }
+    }
+}
+

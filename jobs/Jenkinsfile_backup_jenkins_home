@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    environment {
+        JENKINS_HOME = '/var/lib/jenkins'
+        BACKUP_DIR = '/mnt/backup'
+        BACKUP_FILE = "jenkins_${BUILD_ID}.tar.gz"
+    }
+
+    triggers {
+      cron('0 0 * * 1,4')
+    }
+    
+    stages {
+        stage('Create backup directory') {
+            steps {
+                sh "sudo mkdir -p $BACKUP_DIR"
+            }
+        }
+        stage('Backup Jenkins Home Directory') {
+            steps {
+                sh "cd $BACKUP_DIR && sudo tar -zcvf ${BACKUP_DIR}/${BACKUP_FILE} -P ${JENKINS_HOME}"
+            }
+        }
+    }
+}

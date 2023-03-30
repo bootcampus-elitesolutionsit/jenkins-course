@@ -1,0 +1,10 @@
+pipeline{
+    agent any
+    stages{
+        stage("Run playbook"){
+            steps{
+                ansiblePlaybook credentialsId: 'ubuntu-ssh', disableHostKeyChecking: true, installation: 'Ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/nginx.yml'
+            }
+        }
+    }
+}
