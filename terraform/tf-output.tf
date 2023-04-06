@@ -3,5 +3,5 @@ output "jenkins-ip" {
 }
 
 output "website_url" {
-  value = "http://${aws_instance.jenkins-instance.public_ip}:8080/"
+  value = "https://${local.record_name}/"
 }

@@ -2,14 +2,10 @@ resource "aws_instance" "jenkins-instance" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.medium"
   subnet_id              = module.vpc.public_subnet_id[0]
-  vpc_security_group_ids = [module.vpc.security_group_id]
+  vpc_security_group_ids = [module.vpc.security_group_id, aws_security_group.lb_sg.id]
   key_name               = aws_key_pair.mykeypair.key_name
   user_data              = data.cloudinit_config.jenkins.rendered
   iam_instance_profile   = aws_iam_instance_profile.jenkins-role.name
-
-  depends_on = [
-    aws_ebs_volume.jenkins-data
-  ]
 
   tags = {
     Name = "jenkins-vm"

@@ -77,14 +77,12 @@ fi
 sudo apt-get -y update
 sudo apt-get install -y openjdk-11-jdk awscli openssl whois
 
-curl -fsSL ${JENKINS_URL}/jenkins.io.key | sudo tee \
+curl -fsSL ${JENKINS_URL}/jenkins.io-2023.key | sudo tee \
   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
-
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
-  ${JENKINS_URL} binary/ | sudo tee \
+  https://pkg.jenkins.io/debian binary/ | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
-
-sudo apt-get -y update
+sudo apt-get update
 sudo apt-get -y install jenkins
 
 # Check if the script is being run as root
