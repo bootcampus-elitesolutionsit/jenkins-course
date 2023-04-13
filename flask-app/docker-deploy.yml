@@ -1,0 +1,23 @@
+---
+- name: Deploy Flask App
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      package:
+        name: docker
+        state: present
+
+    - name: Pull Docker Image
+      docker_image:
+        name: elitesolutionsit/flask-app:v1
+        state: present
+
+    - name: Start Docker Container
+      docker_container:
+        name: myflaskapp
+        image: elitesolutionsit/flask-app:v1
+        ports:
+          - "3000:3000"
+        state: started

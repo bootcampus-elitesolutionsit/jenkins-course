@@ -1,0 +1,6 @@
+deploy-flask.sh
+playbook/
+docker-deploy.yml
+Jenkinsfile
+Dockerfile
+inventory.yml

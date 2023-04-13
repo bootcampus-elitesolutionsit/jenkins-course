@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_REGISTRY = "elitesolutionsit"
+        DOCKER_IMAGE_NAME = "flask-app"
+        DOCKER_IMAGE_TAG = "v1"
+    }
+    stages {
+        stage('git clone') {
+            steps {
+                script {
+                    git branch: 'main', credentialsId: 'github-login', url: 'https://github.com/arerepadelouisbenagha/Jenkins-server.git'
+                }
+            }
+        }
+        stage('Build Docker image') {
+            steps {
+                script {
+                    sh """
+                    cd flask-app
+                    sudo docker build -t ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} .
+                    """
+                }
+            }
+        }
+        stage('Docker Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-login', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "echo '${DOCKER_PASSWORD}' | sudo docker login -u '${DOCKER_USERNAME}' --password-stdin"
+                        echo 'Successfully logged into Docker Hub'
+                    }
+                }
+            }
+        }
+        stage('Push Docker image') {
+            steps {
+                script {
+                    sh """
+                    sudo docker push ${DOCKER_REGISTRY}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+                    """
+                }
+            }
+        }
+        stage('Deploy Docker image with Ansible') {
+            steps {
+                script {
+                   ansiblePlaybook credentialsId: 'ssh-login', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/deploy.yaml'
+                }
+            }
+        }
+    }
+}
