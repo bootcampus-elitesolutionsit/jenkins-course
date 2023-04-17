@@ -1,23 +1,49 @@
 ---
 - name: Deploy Flask App
-  hosts: all
+  hosts: webservers
   become: yes
+
+  vars:
+    app_name: "my-flask-app"
+    app_image: "elitesolutionsit/flask-app:v1"
+    app_port: 5000
 
   tasks:
     - name: Install Docker
-      package:
-        name: docker
+      apt:
+        name: docker-ce
         state: present
+      become: yes
 
     - name: Pull Docker Image
       docker_image:
-        name: elitesolutionsit/flask-app:v1
+        name: "{{ app_image }}"
+        source: pull
+
+    - name: Create Docker Network
+      docker_network:
+        name: "{{ app_name }}_net"
         state: present
 
     - name: Start Docker Container
       docker_container:
-        name: myflaskapp
-        image: elitesolutionsit/flask-app:v1
-        ports:
-          - "3000:3000"
+        name: "{{ app_name }}"
+        image: "{{ app_image }}"
         state: started
+        restart_policy: always
+        env:
+          FLASK_APP: "app.py"
+          FLASK_ENV: "production"
+        ports:
+          - "{{ app_port }}:5000"
+        networks:
+          - name: "{{ app_name }}_net"
+          
+    - name: Ensure App is Running
+      uri:
+        url: "http://localhost:{{ app_port }}"
+        status_code: 200
+        timeout: 5
+      retries: 10
+      delay: 5
+

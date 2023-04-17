@@ -28,7 +28,7 @@ variable "AWS_ACCESS_KEY_ID" {
 
 variable "JENKINS_ADMIN" {
   type    = string
-  default = "Jenkins-token-05"
+  default = "Jenkins-token-2"
 }
 
 variable "tags" {

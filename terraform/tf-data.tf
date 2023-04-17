@@ -34,3 +34,14 @@ data "cloudinit_config" "jenkins" {
     })
   }
 }
+
+data "cloudinit_config" "docker" {
+  gzip          = false
+  base64_encode = false
+
+  part {
+    content_type = "text/x-shellscript"
+    filename     = "docker"
+    content      = templatefile("../scripts/install.sh", {})
+  }
+}

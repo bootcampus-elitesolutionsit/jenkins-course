@@ -9,7 +9,7 @@ pipeline {
         stage('git clone') {
             steps {
                 script {
-                    git branch: 'main', credentialsId: 'github-login', url: 'https://github.com/arerepadelouisbenagha/Jenkins-server.git'
+                    git branch: 'main', credentialsId: 'github-login', url: 'https://github.com/techstarterepublic-TSR/jenkins-course.git'
                 }
             }
         }

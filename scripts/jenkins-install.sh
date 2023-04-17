@@ -1,25 +1,21 @@
 #!/bin/bash -x
 exec > >(tee /var/log/userdata.log) 2>&1
 
-# Install ansible
-sudo apt-get -y update
-sudo apt-get install -y python-docker
-sudo apt-get install -y python3-docker
-
 # docker install
-sudo apt-get update
-sudo apt-get install \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
+sudo apt-get -y update
+sudo apt-get install -y ca-certificates curl gnupg lsb-release
 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  
-sudo apt-get update
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get -y update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get -y update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 sudo usermod -aG docker $USER
 newgrp docker
@@ -30,6 +26,9 @@ sudo apt-get install -y software-properties-common
 sudo apt-add-repository ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get -y install ansible
+sudo apt-get -y update
+sudo apt-get install -y python-docker
+sudo apt-get install -y python3-docker
 
 # volume setup
 # The sudo vgchange -ay command will activate all inactive volume groups on a Linux system.
@@ -79,10 +78,11 @@ sudo apt-get install -y openjdk-11-jdk awscli openssl whois
 
 curl -fsSL ${JENKINS_URL}/jenkins.io-2023.key | sudo tee \
   /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+
 echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
   https://pkg.jenkins.io/debian binary/ | sudo tee \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
-sudo apt-get update
+sudo apt-get -y update
 sudo apt-get -y install jenkins
 
 # Check if the script is being run as root

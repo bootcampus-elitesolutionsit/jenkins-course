@@ -1,5 +1,5 @@
 resource "aws_instance" "jenkins-instance" {
-  ami                    = data.aws_ami.ubuntu.id
+  ami                    = "ami-007855ac798b5175e" #data.aws_ami.ubuntu.id
   instance_type          = "t2.medium"
   subnet_id              = module.vpc.public_subnet_id[0]
   vpc_security_group_ids = [module.vpc.security_group_id, aws_security_group.lb_sg.id]
@@ -30,22 +30,22 @@ resource "aws_volume_attachment" "jenkins-data-attachment" {
 
 resource "aws_key_pair" "mykeypair" {
   key_name   = "mykeypair"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCt7c2fGpN2f3/SYhB8inEt9c4XQUrAUBAuwg1nF5XhqxMZo59WrEfnSfe6bQOQrU/axQp1+BMKBiMm73Iy2WdgGditZ7IZscvTn43dKRjEBxv7lNMs7Zz5rORM3/E8s7SU2SS1ehbG2NpXaNmBXBPcehraky08dkhll3gShnZ2WlGzt0DgIfMr6smCVXWuWtizhNDktJ4zjHdwbNqA96Q65L0FdapHh474Rckk1TKSl1qQ0LkhAOsZB+nDlMNbpQrcFnLkk5aX1jMsfEY3FunsrcX4aMJFStcK/8DaSrozrgFVHGdYCwLzKFqx2sQhi4kgIXlZKz6fs6oPAGfhAPNkx13WS4JukRHx3wuD4TLYAHRjwcWdawgrZ2ZlcPcCblU52Csff+pQ+Vo5/MJoLcsgA1Zri1e76uqgUU4yPRyCgEUnT3/QzaE1wQX56wZYjfPNzGhvCaoUbLt9/Ke69pxeJvMbd8pdJCgvPQcnWi6hccNI3S9vRxkgTuFae1ElLwk= lbena@LAPTOP-QB0DU4OG"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC94XyyjaWwt+ENYjs8Dh0omCTOXdFXDRdnZ6eRYfGdKj2Y7LQPSYw8kMzm5hf/aN3qg0RPcGpgPK7db4FbSvIWeNugRhuIbD7sWsktBJNZ95ntPrz0uT+f2S9W/QX+SPbByeNyXko1KAM0sfLvXLrAzOba5z+AyRQiBMO38TnStUuDX2WhUEG/99UW/U04kxvv+VtNMdQkMlrnVwcbcRldzkIU6A5tX0elZHZ1+/aGlwBkGHZBwXJYUdfuuTaTb6n+C+P9Ers/Uxi0T5rqJTVE46u+TIct/W0Z+ZicjoT42nUtwLe1+lBvXqgr2ag3HYyhpigadh3dgmd9or3OXPGu85fgcNreLwl767lA8OjfYFu3YgW2nMjNuIZfc90Mv7H1vbltv3yynLwXtIyBwYE8FK0mFC4P4t4ze2iGzFzkVFgJgzMiMsGDmVzKcgBqI6zicbYlxPXY9vYkOcGjYM83lLPntsvJaTWpSCG8iinroFwD/PR2IPVchi5VhJHMvt8= arere@TSR"
   lifecycle {
     ignore_changes = [public_key]
   }
 }
 
 # Application server
-# resource "aws_instance" "web-instance" {
-#   ami                    = data.aws_ami.ubuntu.id
-#   instance_type          = "t2.micro"
-#   subnet_id              = module.vpc.public_subnet_id[0]
-#   vpc_security_group_ids = [module.vpc.security_group_id]
-#   key_name               = aws_key_pair.mykeypair.key_name
-#   user_data              = data.cloudinit_config.app.rendered
+resource "aws_instance" "web-instance" {
+  ami                    = "ami-007855ac798b5175e" #data.aws_ami.ubuntu.id
+  instance_type          = "t2.micro"
+  subnet_id              = module.vpc.public_subnet_id[0]
+  vpc_security_group_ids = [module.vpc.security_group_id]
+  key_name               = aws_key_pair.mykeypair.key_name
+  user_data              = data.cloudinit_config.docker.rendered
 
-#   tags = {
-#     Name = "app-vm"
-#   }
-# }
+  tags = {
+    Name = "app-vm"
+  }
+}
