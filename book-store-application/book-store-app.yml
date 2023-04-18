@@ -1,0 +1,24 @@
+---
+- hosts: webservers
+  become: yes
+  vars:
+    docker_image: elitesolutionsit/book-store-app:v1
+    container_name: book-store-app
+    port_mapping:
+      - "80:80"
+    dockerhub_username: elitesolutionsit
+    
+  tasks:
+    - name: Pull Docker image
+      docker_image:
+        name: "{{ docker_image }}"
+        source: pull
+
+    - name: Run Docker container
+      docker_container:
+        name: "{{ container_name }}"
+        image: "{{ docker_image }}"
+        state: started
+        pull: yes
+        restart_policy: always
+        ports: "{{ port_mapping }}"
