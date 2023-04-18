@@ -10,7 +10,7 @@ RUN mvn clean package
 # RUN mvn clean package -DskipTests
 
 # Use the official Tomcat image as the base image for the final image
-FROM tomcat:9.0.55-jdk8-openjdk-slim-buster
+FROM  tomcat:8.0
 
 # Copy the WAR file from the build stage into the Tomcat webapps directory
 COPY --from=build /app/target/onlinebookstore.war /usr/local/tomcat/webapps/

@@ -26,6 +26,13 @@ module "vpc" {
       protocol    = "tcp"
       cidr_blocks = "0.0.0.0/0" # Keep this to allow ansible login the application vm
     },
+        {
+      description = "Mariadb access from VPC"
+      from_port   = 8083
+      to_port     = 8083
+      protocol    = "tcp"
+      cidr_blocks = "0.0.0.0/0" # Keep this to allow ansible login the application vm
+    },
     {
 
       description = "Mariadb access from VPC"
