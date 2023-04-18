@@ -5,7 +5,7 @@
     docker_image: elitesolutionsit/book-store-app:v1
     container_name: book-store-app
     port_mapping:
-      - "80:80"
+      - "8083:8083"
     dockerhub_username: elitesolutionsit
     
   tasks:
