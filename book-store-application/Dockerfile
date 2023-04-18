@@ -6,7 +6,8 @@ WORKDIR /app
 COPY . /app
 
 # Build the project
-RUN mvn clean package -DskipTests
+RUN mvn clean package
+# RUN mvn clean package -DskipTests
 
 # Use the official Tomcat image as the base image for the final image
 FROM tomcat:9.0.55-jdk8-openjdk-slim-buster
