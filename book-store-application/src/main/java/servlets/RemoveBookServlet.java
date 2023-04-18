@@ -34,7 +34,7 @@ public class RemoveBookServlet extends HttpServlet {
             rd.include(req, res);
             StoreUtil.setActiveTab(pw, "removebook");
             pw.println("<div class='container'>");
-            if(bookId == null || bookId.isBlank()) {
+            if(bookId == null || bookId.isEmpty()) {
                 //render the remove book form;
                 showRemoveBookForm(pw);
                 return;
