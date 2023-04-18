@@ -22,3 +22,4 @@
         pull: yes
         restart_policy: always
         ports: "{{ port_mapping }}"
+
