@@ -9,12 +9,13 @@ datadog_api_key="${datadog_api_key:-datadog_api_key}"
 
 # Run as non root user
 sudo usermod -aG docker $USER
+git clone https://github.com/techstarterepublic-dev/jenkins-course.git
 
-sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/datadog-sidecar/docker-compose.yml
-sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/datadog-sidecar/datadog-sidecar/datadog.yaml
+sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/datadog-sidecar/docker-compose.yml
+sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/datadog-sidecar/datadog-sidecar/datadog.yaml
 
 # Check if variables are set
-if [[ -z $DOCKER_USERNAME || -z $DOCKER_PASSWORD || -z $SERVER_USERNAME || -z $SERVER_HOST -z || $datadog_api_key ]]; then
+if [[ -z $DOCKER_USERNAME || -z $DOCKER_PASSWORD || -z $SERVER_USERNAME || -z $SERVER_HOST || -z $datadog_api_key ]]; then
     echo "Error: One or more required variables are not set."
     exit 1
 else
