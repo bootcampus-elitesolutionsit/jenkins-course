@@ -23,7 +23,7 @@ pipeline {
                         sshUserPrivateKey(credentialsId: 'server-ssh-key', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SERVER_USERNAME')
                     ]) {
                     sh """
-                        scp -i ${SSH_KEY_FILE} -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/jenkins-course/scripts-docker/deploy-to-target.sh ${SERVER_USERNAME}@${SERVER_HOST}:/tmp/deploy-to-target.sh
+                        scp -i ${SSH_KEY_FILE} -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/scripts-docker/deploy-to-target.sh ${SERVER_USERNAME}@${SERVER_HOST}:/tmp/deploy-to-target.sh
                         ssh -i ${SSH_KEY_FILE} -o StrictHostKeyChecking=no ${SERVER_USERNAME}@${SERVER_HOST} "chmod +x /tmp/deploy-to-target.sh; DOCKER_USERNAME=${DOCKER_USERNAME} DOCKER_PASSWORD=${DOCKER_PASSWORD} /tmp/deploy-to-target.sh"
                     """
                     }
