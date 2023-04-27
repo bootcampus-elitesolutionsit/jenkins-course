@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # Get variables from environment
@@ -9,7 +10,14 @@ datadog_api_key="${datadog_api_key:-datadog_api_key}"
 
 # Run as non root user
 sudo usermod -aG docker $USER
-git clone https://github.com/techstarterepublic-dev/jenkins-course.git
+GIT=$(git clone https://github.com/techstarterepublic-dev/jenkins-course.git)
+
+if [[ -z $GIT ]]; then
+   sudo rm -rf jenkins-course
+else
+  git clone https://github.com/techstarterepublic-dev/jenkins-course.git
+fi
+
 
 sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/docker-compose.yml
 sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/datadog-sidecar/datadog.yaml
