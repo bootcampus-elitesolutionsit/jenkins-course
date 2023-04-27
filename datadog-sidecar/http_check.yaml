@@ -1,0 +1,8 @@
+init_config:
+
+instances:
+  - name: My_first_service
+    url: http://18.205.2.235:8080/
+    username: user
+    password: pass
+    timeout: 1
