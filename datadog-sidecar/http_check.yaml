@@ -1,0 +1,5 @@
+init_config:
+
+instances:
+  - name: react-app-site-dev
+    url: http://18.205.2.235:8080/
