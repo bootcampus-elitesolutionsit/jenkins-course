@@ -1,8 +1,5 @@
 init_config:
 
 instances:
-  - name: My_first_service
+  - name: react-app-site-dev
     url: http://18.205.2.235:8080/
-    username: user
-    password: pass
-    timeout: 1
