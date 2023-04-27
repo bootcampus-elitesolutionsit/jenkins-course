@@ -13,8 +13,6 @@ sudo usermod -aG docker $USER
 
 DIR=$HOME/jenkins-course
 if [[ -d $DIR ]]; then
-   sudo rm -rf "$DIR"
-else
    cd $HOME && git clone https://github.com/techstarterepublic-dev/jenkins-course.git
 fi
 
