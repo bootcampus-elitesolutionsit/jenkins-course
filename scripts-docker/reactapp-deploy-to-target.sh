@@ -10,7 +10,7 @@ datadog_api_key="${DATADOG_API_KEY:-datadog_api_key}"
 # Run as non root user
 sudo usermod -aG docker $USER
 
-sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/docker-compose.yml
+sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/docker-compose-frontend.yml
 sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/datadog-sidecar/datadog.yaml
 
 # Check if variables are set
