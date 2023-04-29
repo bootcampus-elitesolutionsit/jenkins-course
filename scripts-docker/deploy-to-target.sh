@@ -9,6 +9,7 @@ datadog_api_key="${DATADOG_API_KEY:-datadog_api_key}"
 
 # Run as non root user
 sudo usermod -aG docker $USER
+cd $HOME && git clone https://github.com/techstarterepublic-dev/jenkins-course.git
 
 sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/docker-compose.yml
 sed "s/\${datadog_api_key}/$datadog_api_key/g" /home/ubuntu/jenkins-course/datadog-sidecar/datadog.yaml
