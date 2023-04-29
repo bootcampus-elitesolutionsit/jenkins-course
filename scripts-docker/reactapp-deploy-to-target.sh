@@ -20,6 +20,6 @@ if [[ -z $DOCKER_USERNAME || -z $DOCKER_PASSWORD || -z $SERVER_USERNAME || -z $S
     exit 1
 else
     # Run docker-compose on the target server
-    cd /home/ubuntu/jenkins-course && docker-compose -f docker-compose-frontend.yml --env-file <(echo "DD_API_KEY=${DATADOG_API_KEY}") up -d
+    cd /home/ubuntu/jenkins-course && sudo docker-compose -f docker-compose-frontend.yml --env-file <(echo "DD_API_KEY=${DATADOG_API_KEY}") up -d
     echo "Deployment successful"
 fi
