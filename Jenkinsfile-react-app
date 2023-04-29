@@ -6,7 +6,7 @@ pipeline {
         SERVER_SSH_KEY  = "$credentials('server-ssh-key')"
         SERVER_HOST     = '34.200.228.201'
         DOCKER_PASSWORD = "$credentials('docker-login')"
-        datadog_api_key = "$credentials('datadog-api-key')"
+        DATADOG_API_KEY = "$credentials('datadog-api-key')"
     }
 
     stages {
