@@ -25,7 +25,7 @@ pipeline {
                     string(credentialsId: 'datadog-api-key', variable: 'DATADOG_API_KEY')
                 ]) {
                     sh """
-                    scp -i ${SSH_KEY_FILE} -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/react-app-dev/scripts-docker/reactapp-deploy-to-target.sh ${SERVER_USERNAME}@${SERVER_HOST}:/home/ubuntu/deployment-app/reactapp-deploy-to-target.sh
+                    scp -i ${SSH_KEY_FILE} -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/react-app-monitor-dev/scripts-docker/reactapp-deploy-to-target.sh ${SERVER_USERNAME}@${SERVER_HOST}:/home/ubuntu/deployment-app/reactapp-deploy-to-target.sh
                     ssh -i ${SSH_KEY_FILE} -o StrictHostKeyChecking=no ${SERVER_USERNAME}@${SERVER_HOST} "sudo chmod +x /home/ubuntu/deployment-app/reactapp-deploy-to-target.sh; DOCKER_USERNAME=${DOCKER_USERNAME} DOCKER_PASSWORD=${DOCKER_PASSWORD} DATADOG_API_KEY=${DATADOG_API_KEY} /home/ubuntu/deployment-app/reactapp-deploy-to-target.sh"
                     """
                 }
